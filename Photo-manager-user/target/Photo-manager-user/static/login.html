@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div{
+            margin: 150px auto;
+            border:cyan solid 1px;
+            text-align: center;
+            width: 400px;
+            height: 200px;
+            background-color: bisque;
+        }
+
+        div input{
+            margin: 10px;
+        }
+
+        body{
+            margin: 0px;
+            padding: 0px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <p>登录</p>
+    用户名:<input type="text" id="username"><br>
+    密 码:<input type="password" id="passwd"><br>
+    <input type="button" value="登录" id="login">
+    如果没有账户请<a href="">注册账户！</a>
+</div>
+<script src="static/js/jquery-3.6.0.js"></script>
+<script>
+    $("#login").click(function () {
+        var username=$("#username").val();
+        var password=$("#passwd").val();
+        $.ajax({
+            type:"post",
+            url:"/user/login",
+            data:"username="+username+"&"+"passwd="+password,
+            success:function (rs) {
+                if (rs.code==1002){
+                    alert(rs.message)
+                }
+
+                if (rs.code==1001){
+                    alert("登录成功");
+                    localStorage.setItem("username",rs.data);
+                    location.href="/static/index.html"
+                }
+            }
+        })
+    })
+</script>
+</body>
+</html>
